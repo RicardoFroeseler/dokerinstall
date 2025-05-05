@@ -18,3 +18,13 @@ sudo usermod -aG docker $USER
 
 
 docker --version
+
+
+-------------------------------
+teste
+
+docker run hello-world
+
+sudo apt install docker-compose
+
+sudo usermod -aG docker $USER
