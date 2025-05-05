@@ -69,4 +69,109 @@ ls: cannot access '/home/ricardo/jellyfin': No such file or directory
 ou simplesmente não mostrar nada.
 
 -----------------------------------------------------
+INSTALAÇÃO
+
+1. Atualizar o sistema
+sudo apt update && sudo apt upgrade -y
+
+
+2. Instalar o Docker Engine
+# Dependências
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common gnupg
+
+# Adicionar chave GPG e repositório oficial
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+  | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
+   https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Instalar Docker
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io
+
+# Permitir usar Docker sem sudo
+sudo usermod -aG docker $USER
+
+COMANDO COMPLETO
+---
+sudo apt update && sudo apt install -y apt-transport-https ca-certificates curl software-properties-common gnupg && \
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io && \
+sudo usermod -aG docker $USER
+---
+
+3. Criar diretórios limpos para o Jellyfin
+mkdir -p ~/jellyfin/{config,cache,media/{Filmes,Séries,Animes},config/plugins}
+
+
+4. Subir o Jellyfin em Docker
+mkdir -p ~/jellyfin/{config,cache,config/plugins,media/{Filmes,Séries,Animes}} && \
+docker run -d --name jellyfin \
+  -p 8096:8096 \
+  -v ~/jellyfin/config:/config \
+  -v ~/jellyfin/cache:/cache \
+  -v ~/jellyfin/media:/media \
+  jellyfin/jellyfin:latest
+
+
+5. Completar o setup inicial pelo navegador
+Abra o navegador na VM: http://localhost:8096
+
+Siga o wizard:
+
+Escolha idioma
+
+Crie usuário admin e senha
+
+Adicione bibliotecas apontando para /media/Filmes, /media/Séries, /media/Animes
+
+Conclua
+
+6. Instalar o plugin “Custom CSS and Script”
+cd ~/jellyfin/config/plugins
+curl -LO https://github.com/jellyfin/jellyfin-plugin-customcss/releases/download/v1.0.2/Jellyfin.Plugin.CustomCss.zip
+unzip Jellyfin.Plugin.CustomCss.zip && rm Jellyfin.Plugin.CustomCss.zip
+docker restart jellyfin
+
+
+7. Configurar seu CSS e JS no plugin
+
+No Jellyfin (http://localhost:8096), faça login como admin.
+
+Vá em ☰ → Painel → Plugins → Meus Plugins → Custom CSS and Script.
+
+Cole em Custom CSS:
+
+CSS
+.suporte-botao {
+  color: white;
+  background-color: #0077cc;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}
+.suporte-botao:hover {
+  background-color: #005fa3;
+}
+
+JS:
+const intervalo = setInterval(() => {
+  const h = document.querySelector(".headerRight");
+  if (h && !document.querySelector(".suporte-botao")) {
+    const btn = document.createElement("a");
+    btn.textContent = "🛠 Suporte";
+    btn.href = "https://materprint.com.br";
+    btn.target = "_blank";
+    btn.className = "suporte-botao";
+    h.prepend(btn);
+    clearInterval(intervalo);
+  }
+}, 500);
 
