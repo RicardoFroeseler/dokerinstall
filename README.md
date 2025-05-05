@@ -115,7 +115,15 @@ docker rm jellyfin
 docker pull jellyfin/jellyfin:latest
 
 4:
-<pre> docker run -d --name jellyfin --user $(id -u):$(id -g) -p 8096:8096 -v ~/jellyfin/config:/config -v ~/jellyfin/cache:/cache -v ~/jellyfin/media:/media jellyfin/jellyfin:latest  </pre>
+<pre> 
+docker run -d --name jellyfin \
+  --user $(id -u):$(id -g) \
+  -p 8096:8096 \
+  -v ~/jellyfin/config:/config \
+  -v ~/jellyfin/cache:/cache \
+  -v ~/jellyfin/media:/media \
+  jellyfin/jellyfin:latest
+</pre>
 
 
 
