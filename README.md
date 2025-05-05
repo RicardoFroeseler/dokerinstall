@@ -50,7 +50,8 @@ mkdir -p ~/jellyfin/media
 
 
 ✅ 2. Rodar o Jellyfin com Docker:
-<pre> ``` docker run -d \ --name jellyfin \ --user $(id -u):$(id -g) \ -p 8096:8096 \ -v ~/jellyfin/config:/config \ -v ~/jellyfin/cache:/cache \ -v ~/jellyfin/media:/media \ jellyfin/jellyfin ``` </pre>
+<pre> docker run -d --name jellyfin --user $(id -u):$(id -g) -p 8096:8096 -v ~/jellyfin/config:/config -v ~/jellyfin/cache:/cache -v ~/jellyfin/media:/media jellyfin/jellyfin
+ </pre>
 
 
 ✅ 3. Acessar o Jellyfin:
