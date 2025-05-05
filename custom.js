@@ -1,4 +1,11 @@
 window.addEventListener("DOMContentLoaded", () => {
+    // ✅ Injeta o CSS externo
+    const css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = "/config/data/themes/default/custom.css"; // Caminho dentro do container
+    document.head.appendChild(css);
+
+    // ✅ Cria o botão
     const header = document.querySelector(".headerRight");
 
     if (header) {
@@ -6,14 +13,7 @@ window.addEventListener("DOMContentLoaded", () => {
         btn.textContent = "🛠 Suporte";
         btn.href = "https://materprint.com.br";
         btn.target = "_blank";
-        btn.style.color = "white";
-        btn.style.backgroundColor = "#0077cc";
-        btn.style.padding = "5px 10px";
-        btn.style.marginRight = "10px";
-        btn.style.borderRadius = "5px";
-        btn.style.fontWeight = "bold";
-        btn.style.textDecoration = "none";
-        btn.style.cursor = "pointer";
+        btn.className = "suporte-botao";
 
         header.prepend(btn);
     }
