@@ -67,5 +67,12 @@ mkdir -p ~/jellyfin/media/Filmes
 mkdir -p ~/jellyfin/media/Séries
 mkdir -p ~/jellyfin/media/Desenhos
 
+-------------------------------
+acessando config no vscode
+-------------------------------
+se esta usando 
+mkdir -p ~/jellyfin/config/data/themes
 
+basta rodar este comando
+code ~/jellyfin/config/data/themes
 
