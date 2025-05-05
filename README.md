@@ -60,6 +60,7 @@ docker run -d \
   jellyfin/jellyfin
 
 
+
 ✅ 3. Acessar o Jellyfin:
 http://localhost:8096
 
