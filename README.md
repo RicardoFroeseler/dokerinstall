@@ -59,6 +59,13 @@ http://localhost:8096
 
 
 
+-------------------------------
+instalando sub pastas
+-------------------------------
+
+mkdir -p ~/jellyfin/media/Filmes
+mkdir -p ~/jellyfin/media/Séries
+mkdir -p ~/jellyfin/media/Desenhos
 
 
 
