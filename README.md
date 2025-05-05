@@ -86,4 +86,15 @@ reiniciando o servico
 -------------------------------
 docker restart jellyfin
 
+-------------------------------
+forcando tema
+-------------------------------
+abrir terminal:
+docker exec -it jellyfin bash
+
+rodar comando:
+ls /config/data/themes/default
+
+**custom.css  custom.js**
+
 
