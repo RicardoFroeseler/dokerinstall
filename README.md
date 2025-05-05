@@ -98,3 +98,21 @@ ls /config/data/themes/default
 **custom.css  custom.js**
 
 
+-------------------------------
+atualizando versão
+-------------------------------
+1:
+docker stop jellyfin
+
+2:
+docker rm jellyfin
+
+3:
+docker pull jellyfin/jellyfin:latest
+
+4:
+docker run -d --name jellyfin --user $(id -u):$(id -g) -p 8096:8096 -v ~/jellyfin/config:/config -v ~/jellyfin/cache:/cache -v ~/jellyfin/media:/media jellyfin/jellyfin:latest
+
+-------------------------------
+
+
