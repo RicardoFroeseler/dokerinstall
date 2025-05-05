@@ -67,6 +67,11 @@ mkdir -p ~/jellyfin/media/Filmes
 mkdir -p ~/jellyfin/media/Séries
 mkdir -p ~/jellyfin/media/Desenhos
 
+para criar a pasta de edicao crie esta aqui ->
+
+mkdir -p ~/jellyfin/config/data/themes/default
+
+
 -------------------------------
 acessando config no vscode
 -------------------------------
