@@ -101,6 +101,10 @@ ls /config/data/themes/default
 -------------------------------
 atualizando versão
 -------------------------------
+docker ps -a --filter "name=jellyfin" --format "{{.ID}}\t{{.Image}}\t{{.Status}}"
+docker rm -f $(docker ps -aq --filter "name=jellyfin")
+
+
 1:
 docker stop jellyfin
 
