@@ -131,47 +131,48 @@ Adicione bibliotecas apontando para /media/Filmes, /media/Séries, /media/Animes
 
 Conclua
 
-6. Instalar o plugin “Custom CSS and Script”
-cd ~/jellyfin/config/plugins
-curl -LO https://github.com/jellyfin/jellyfin-plugin-customcss/releases/download/v1.0.2/Jellyfin.Plugin.CustomCss.zip
-unzip Jellyfin.Plugin.CustomCss.zip && rm Jellyfin.Plugin.CustomCss.zip
-docker restart jellyfin
+6. Instalar plugin “Custom JavaScript” (para injetar CSS + um botão)
+No Dashboard → Plugins → aba Catálogo, clique no ícone de engrenagem (⚙️) no canto superior direito.
 
+Adicione este repositório:
 
-7. Configurar seu CSS e JS no plugin
+Nome: @johnpc (Custom Javascript)
 
-No Jellyfin (http://localhost:8096), faça login como admin.
+URL:
+https://raw.githubusercontent.com/johnpc/jellyfin-plugin-custom-javascript/refs/heads/main/manifest.json
+``` :contentReference[oaicite:1]{index=1}
 
-Vá em ☰ → Painel → Plugins → Meus Plugins → Custom CSS and Script.
+Salve, pesquise por Custom Javascript, clique em Instalar e depois em Reiniciar Jellyfin.
 
-Cole em Custom CSS:
+Após o servidor subir, vá em Dashboard → Plugins → Custom JavaScript e cole este código:
+window.addEventListener("DOMContentLoaded", () => {
+  // injeta o CSS
+  const style = document.createElement("style");
+  style.textContent = `
+    .support-button {
+      color: white;
+      background-color: #0077cc;
+      padding: 5px 10px;
+      margin-right: 10px;
+      border-radius: 5px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .support-button:hover {
+      background-color: #005fa3;
+    }
+  `;
+  document.head.appendChild(style);
 
-CSS
-.suporte-botao {
-  color: white;
-  background-color: #0077cc;
-  padding: 5px 10px;
-  margin-right: 10px;
-  border-radius: 5px;
-  font-weight: bold;
-  text-decoration: none;
-  cursor: pointer;
-}
-.suporte-botao:hover {
-  background-color: #005fa3;
-}
-
-JS:
-const intervalo = setInterval(() => {
-  const h = document.querySelector(".headerRight");
-  if (h && !document.querySelector(".suporte-botao")) {
+  // cria o botão e adiciona no header
+  const header = document.querySelector(".headerRight");
+  if (header) {
     const btn = document.createElement("a");
     btn.textContent = "🛠 Suporte";
     btn.href = "https://materprint.com.br";
     btn.target = "_blank";
-    btn.className = "suporte-botao";
-    h.prepend(btn);
-    clearInterval(intervalo);
+    btn.className = "support-button";
+    header.prepend(btn);
   }
-}, 500);
-
+});
