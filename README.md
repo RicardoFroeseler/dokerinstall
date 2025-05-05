@@ -81,3 +81,9 @@ mkdir -p ~/jellyfin/config/data/themes
 basta rodar este comando
 code ~/jellyfin/config/data/themes
 
+-------------------------------
+reiniciando o servico
+-------------------------------
+docker restart jellyfin
+
+
