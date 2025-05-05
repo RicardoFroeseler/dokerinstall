@@ -1,0 +1,11 @@
+{
+    "Id": "default",
+    "Name": "Tema Padrão + Suporte",
+    "Description": "Tema padrão com botão de suporte MaterPrint",
+    "Author": "Ricardo",
+    "Version": "1.0.0",
+    "MinJellyfinVersion": "10.8.0",
+    "CssFiles": ["custom.css"],
+    "JsFiles": ["custom.js"]
+  }
+  
