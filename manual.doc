@@ -176,3 +176,12 @@ window.addEventListener("DOMContentLoaded", () => {
     header.prepend(btn);
   }
 });
+
+
+--------------------------------
+bi direcional do linux e windows
+
+sudo apt update
+sudo apt install -y build-essential dkms linux-headers-$(uname -r) \
+                    virtualbox-guest-utils virtualbox-guest-x11
+sudo reboot
