@@ -1,0 +1,91 @@
+1) Pare e remova o container Jellyfin
+
+docker stop jellyfin
+docker rm jellyfin
+
+2) Apague completamente as pastas de configuração, cache, mídia e plugins no host
+⚠️ Isso vai remover todas as suas configurações e bibliotecas. Faça backup de qualquer coisa importante antes.
+
+rm -rf ~/jellyfin
+
+3) Crie as pastas limpas de novo
+
+mkdir -p ~/jellyfin/config
+mkdir -p ~/jellyfin/cache
+mkdir -p ~/jellyfin/media/Filmes
+mkdir -p ~/jellyfin/media/Séries
+mkdir -p ~/jellyfin/media/Animes
+mkdir -p ~/jellyfin/config/plugins
+
+
+
+4) Suba o container pela primeira vez
+Isso vai gerar o jellyfin.db e a estrutura interna limpa em ~/jellyfin/config/config/...
+
+docker run -d --name jellyfin \
+  -p 8096:8096 \
+  -v ~/jellyfin/config:/config \
+  -v ~/jellyfin/cache:/cache \
+  -v ~/jellyfin/media:/media \
+  jellyfin/jellyfin:latest
+
+
+Nota: não especificamos --user aqui para simplificar. O container roda como root internamente.
+
+5) Acesse a interface e faça o setup inicial
+Abra no navegador: http://localhost:8096
+
+Complete o wizard de primeira execução: idioma, pasta de mídia (/media), crie o usuário admin.
+
+6) Instale o plugin de Custom CSS & JS manualmente
+Ainda no terminal:
+
+cd ~/jellyfin/config/plugins
+curl -LO https://github.com/jellyfin/jellyfin-plugin-customcss/releases/download/v1.0.3/Jellyfin.Plugin.CustomCss.zip
+unzip Jellyfin.Plugin.CustomCss.zip
+rm Jellyfin.Plugin.CustomCss.zip
+docker restart jellyfin
+
+
+7) Configure o plugin na UI
+Faça login como admin em http://localhost:8096
+
+Abra ☰ → Painel → Plugins → Meus Plugins → Custom CSS and Script
+
+Em Custom CSS, cole:
+
+css
+Copiar
+Editar
+.suporte-botao {
+  color: white;
+  background-color: #0077cc;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}
+.suporte-botao:hover {
+  background-color: #005fa3;
+}
+Em Custom JavaScript, cole:
+
+js
+Copiar
+Editar
+const intervalo = setInterval(() => {
+  const h = document.querySelector(".headerRight");
+  if (h && !document.querySelector(".suporte-botao")) {
+    const btn = document.createElement("a");
+    btn.textContent = "🛠 Suporte";
+    btn.href = "https://materprint.com.br";
+    btn.target = "_blank";
+    btn.className = "suporte-botao";
+    h.prepend(btn);
+    clearInterval(intervalo);
+  }
+}, 500);
+Salve e, na tela principal, aperte Ctrl+F5 para limpar o cache.
+
