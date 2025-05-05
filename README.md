@@ -36,7 +36,35 @@ configurar copia e cola da vm
 -------------------------------
 sudo apt update
 sudo apt install build-essential dkms linux-headers-$(uname -r)
-
 sudo /media/$USER/VBox*/VBoxLinuxAdditions.run
 
 *reiniciar a maquina 
+
+-------------------------------
+instalando o jellyfin
+-------------------------------
+✅ 1. Criar uma pasta para armazenar os dados do Jellyfin:
+mkdir -p ~/jellyfin/config
+mkdir -p ~/jellyfin/cache
+mkdir -p ~/jellyfin/media
+
+
+✅ 2. Rodar o Jellyfin com Docker:
+docker run -d \
+  --name jellyfin \
+  --user $(id -u):$(id -g) \
+  -p 8096:8096 \
+  -v ~/jellyfin/config:/config \
+  -v ~/jellyfin/cache:/cache \
+  -v ~/jellyfin/media:/media \
+  jellyfin/jellyfin
+
+
+✅ 3. Acessar o Jellyfin:
+http://localhost:8096
+
+
+
+
+
+
