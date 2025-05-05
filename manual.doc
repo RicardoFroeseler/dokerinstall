@@ -45,3 +45,28 @@ rm -rf ~/jellyfin
 
 # 4. (Opcional) Se você tiver um usuário chamado jellyfin, removê-lo
 sudo userdel jellyfin 2>/dev/null || true
+
+
+-----------------------------------------------------
+CONFERENCIA
+
+docker ps -a
+Se não aparecer nenhum container, está limpo.
+
+docker images
+Deve mostrar apenas a imagem <none> ou nenhuma referência a jellyfin.
+
+docker volume ls
+Não deve aparecer nenhum volume, especialmente nada como jellyfin_*.
+
+dpkg -l | grep -E "docker|containerd|jellyfin"
+Não deve retornar linhas para docker-ce, docker.io, containerd.io ou qualquer pacote jellyfin.
+
+ls ~/jellyfin
+Se tudo foi removido, deve responder:
+
+ls: cannot access '/home/ricardo/jellyfin': No such file or directory
+ou simplesmente não mostrar nada.
+
+-----------------------------------------------------
+
