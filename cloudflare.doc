@@ -1,0 +1,46 @@
+1  Instalar (ou atualizar) o cloudflared
+curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb \
+  -o cloudflared.deb
+sudo apt install ./cloudflared.deb
+
+2  Autenticar na sua conta Cloudflare
+cloudflared tunnel login
+
+    Abre o navegador → faça login → Authorize.
+    Volte ao terminal: aparecerá “You have successfully logged in”
+
+3  Criar o túnel
+cloudflared tunnel create jellyfin-tunnel
+
+    Copie o Tunnel ID que aparece (por ex. abc123…).
+
+4  Apontar o domínio para o túnel
+cloudflared tunnel route dns jellyfin-tunnel filmesonline.live
+    
+    Cloudflare cria o CNAME flattening automaticamente.
+
+5  Configurar o túnel
+sudo mkdir -p /etc/cloudflared
+sudo nano /etc/cloudflared/config.yml
+
+    Cole (troque <TUNNEL-ID> pelo ID real e salve):
+
+tunnel: jellyfin-tunnel
+credentials-file: /root/.cloudflared/<TUNNEL-ID>.json
+
+ingress:
+  - hostname: filmesonline.live
+    service: http://localhost:8096
+  - service: http_status:404
+
+6  Rodar o túnel como serviço
+sudo cloudflared service install
+sudo systemctl start cloudflared
+sudo systemctl status cloudflared --no-pager
+
+    O status deve mostrar active (running).
+
+7  Testar
+
+https://filmesonline.live
+
