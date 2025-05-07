@@ -83,3 +83,31 @@ https://filmesonline.live
 
 se nao rode 
 sudo journalctl -u cloudflared -f
+
+
+---------------------------------------------
+
+sudo mkdir -p /etc/cloudflared
+sudo cp /home/ricardo/.cloudflared/b3da3291-5058-4015-95f6-6b4e5240bca4.json /etc/cloudflared/
+
+
+sudo chown root:root /etc/cloudflared/b3da3291-5058-4015-95f6-6b4e5240bca4.json
+sudo chmod 600 /etc/cloudflared/b3da3291-5058-4015-95f6-6b4e5240bca4.json
+
+
+sudo nano /etc/cloudflared/config.yml
+
+---
+
+tunnel: jellyfin-tunnel
+credentials-file: /etc/cloudflared/b3da3291-5058-4015-95f6-6b4e5240bca4.json
+
+ingress:
+  - hostname: filmesonline.live
+    service: http://localhost:8096
+  - service: http_status:404
+
+---
+
+sudo systemctl restart cloudflared
+sudo systemctl status cloudflared --no-pager
