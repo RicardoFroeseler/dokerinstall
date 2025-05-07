@@ -44,3 +44,42 @@ sudo systemctl status cloudflared --no-pager
 
 https://filmesonline.live
 
+
+
+------------------ajustes------------------
+1
+sudo nano /etc/cloudflared/config.yml
+
+tunnel: jellyfin-tunnel
+credentials-file: /home/ricardo/.cloudflared/b3da3291-5058-4015-95f6-6b4e5240bca4.json
+
+ingress:
+  - hostname: filmesonline.live
+    service: http://localhost:8096
+  - service: http_status:404
+
+ctrl + o slavar ctrl + x sair
+
+2
+# coloca o arquivo no grupo 'cloudflared' e restringe a leitura
+sudo chown root:cloudflared /home/ricardo/.cloudflared/b3da3291-5058-4015-95f6-6b4e5240bca4.json
+sudo chmod 640 /home/ricardo/.cloudflared/b3da3291-5058-4015-95f6-6b4e5240bca4.json
+
+
+3
+sudo systemctl restart cloudflared
+sudo systemctl status cloudflared --no-pager
+
+resultado
+Active: active (running)
+...
+Connected to xxxx.cloudflare.com
+
+
+4
+teste o acesso
+https://filmesonline.live
+
+
+se nao rode 
+sudo journalctl -u cloudflared -f
